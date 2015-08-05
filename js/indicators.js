@@ -326,6 +326,7 @@
 				indLen = 0,
 				indTooltip,
 				indPointFormat,
+                indTooltipDecimals,
 				k;
 			
 			// Loop over the point array map and replace unformatted values with sprintf formatting markup
@@ -347,33 +348,34 @@
 
 					HC.each(ind.values,function(val, j){
 						if(val[0] === x) {
-
-							if(ind.options.tooltip) {
-
+							indTooltip = ind.options.tooltip;
+                            indTooltipDecimals = (indTooltip && indTooltip.decimals) ? indTooltip.decimals : 3;
+                            
+                            if(!indTooltip || !indTooltip.pointFormat) {
+								//default format
+								graphLen = ind.graph.length;
+								for(k = 0; k < graphLen; k++) {
+									pointFormat += '<span style="font-weight:bold;color:' +
+                                             ind.graph[k].element.attributes.stroke.value + ';">' + 
+                                             HC.splat(ind.options.names || ind.name)[k] + 
+                                    '</span>: ' + HC.numberFormat(val[k+1],indTooltipDecimals) + '<br/>';
+								}
+                            } else {
 								indLen = val.length;
-								indTooltip = ind.options.tooltip;
-								indPointFormat = indTooltip.pointFormat;
+    							indPointFormat = indTooltip.pointFormat;
 								pointFormat += HC.format(indPointFormat, {
 									point: {
 										bottomColor: indLen > 3 ? ind.graph[2].element.attributes.stroke.value : '',
-										bottomLine: HC.numberFormat(val[3],3),
+										bottomLine: HC.numberFormat(val[3],indTooltipDecimals),
 										x: val[0],
-										y: indLen > 3 ? HC.numberFormat(val[2],3) : HC.numberFormat(val[1],3),
+										y: indLen > 3 ? HC.numberFormat(val[2],indTooltipDecimals) : HC.numberFormat(val[1],indTooltipDecimals),
 										color: indLen > 3 ? ind.graph[1].element.attributes.stroke.value : ind.graph[0].element.attributes.stroke.value,
-										topLine: HC.numberFormat(val[1],3),
+										topLine: HC.numberFormat(val[1],indTooltipDecimals),
 										topColor: ind.graph[0].element.attributes.stroke.value
 									},
 									series:ind
 								});
-
-							} else {
-
-								//default format
-								graphLen = ind.graph.length;
-								for(k = 0; k < graphLen; k++) {
-									pointFormat += '<span style="font-weight:bold;color:' + ind.graph[k].element.attributes.stroke.value + ';">' + HC.splat(ind.options.names || ind.name)[k] + '</span>: ' + HC.numberFormat(val[k+1],3) + '<br/>';
-								}
-							}
+                            }
 						}
 					});
 				});

@@ -202,6 +202,11 @@ tooltip:{
 			<td align="left"> String </td>
 			<td align="left"> <code>point.color</code> and <code>point.y</code> return values from indicator. Disabled by default.</td>
 		</tr>
+		<tr>
+			<td align="left">tooltip.decimals</td>
+			<td align="left"> Number </td>
+			<td align="left"> Number of decimal points in tooltip indicator value. Defaults to <code>3</code>.</td>
+		</tr>
   </tbody>
 </table>
 
