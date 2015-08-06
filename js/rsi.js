@@ -72,14 +72,14 @@
             loss = [],
             simple = false,
             RSIPoint, change, RS, avgGain, avgLoss;
-
-            // atr requires close value     
-            if((xVal.length <= period) || yVal[0].length < index || EMA === UNDEFINED) {
-                return;
-            }
-           
+			
             if(!isArray(yVal[0])) {
                 simple = true;
+            }
+
+            // atr requires close value     
+            if((xVal.length <= period) || (!simple && yVal[0].length < index) || EMA === UNDEFINED) {
+                return;
             }
            
             // accumulate first N-points
