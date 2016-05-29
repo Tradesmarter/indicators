@@ -191,7 +191,9 @@
 		*  Force redraw for indicator with new point options, like value
 		*/
 		HC.wrap(HC.Point.prototype, 'update', function(proceed, options, redraw) {
-				forceRedraw(this.series);
+				if (redraw !== false) {
+                    forceRedraw(this.series);
+                }
 				proceed.call(this, options, redraw);
 		});
 		
@@ -983,7 +985,7 @@
 			* Hide the indicator
 			*/
 			hide: function() {
-					this.group.hide();
+					this.chart.indicators.group.hide();
 					this.visible = false;
 			},
 			
@@ -991,7 +993,7 @@
 			* Show the indicator
 			*/
 			show: function() {
-					this.group.show();
+					this.chart.indicators.group.show();
 					this.visible = true;
 			}
 		};
