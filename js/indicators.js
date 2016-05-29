@@ -1,4 +1,5 @@
 (function (HC) {
+		'use strict'
 		/***
 		
 		Each indicator requires mothods:
@@ -241,7 +242,7 @@
 								this.setScale();
 								this.setTickPositions(true);  
 		
-								//this.chart.getMargins();
+								this.chart.getMargins(); // #38
 								HC.each(this.indicators, function(ind, e) {
 									ind.drawGraph();
 								});
@@ -344,7 +345,7 @@
 				
 				// build the values of indicators
 				HC.each(indicators,function(ind,i) {
-					if(typeof(ind.values) === 'undefined' || ind.visible === false) {
+					if(typeof(ind.values) === 'undefined' || ind.visible === false || ind.options.params.allowTooltip === false) {
 						return;
 					}
 
@@ -377,7 +378,7 @@
 									},
 									series:ind
 								});
-                            }
+							}
 						}
 					});
 				});
@@ -643,6 +644,7 @@
 								width: ind.options.Axis.width,
 								height: ind.options.Axis.height
 						});   
+						len = ind.graph.length; 
 						for(i = 0; i < len ;i++) {
 							ind.graph[i].add(ind.group);
 						} 
@@ -657,19 +659,19 @@
 						start = series.cropStart,
 						end,
 						length = HC.splat(this.options.params.period)[0], //#23 - don't use cropShoulded - it's broken since v1.3.6
-						minLen = Math.max(0, start - length - 1), // cropping starts from 0 at least
-						maxLen = series.options.data.length,              
 						groupedPoints = [],
 						currentData = [],
 						xAxis = series.xAxis,
 						groupIntervalFactor,
 						interval,
-						ex, 
-						xMin, xMax,
+						ex = xAxis.getExtremes(), 
+						xMin = ex.min, 
+						xMax = ex.max,
 						yData, groupPositions,
 						processedXData,
 						processedXDataLength,
 						totalRange,
+						minLen = this.getCropStart(ex.min, this.xData),  
 						defaultDataGroupingUnits = [[
 							'millisecond', // unit name
 							[1, 2, 5, 10, 20, 25, 50, 100, 200, 500] // allowed multiples
@@ -697,10 +699,7 @@
 						]
 					];
 						
-					if(series.currentDataGrouping) {
-							ex = xAxis.getExtremes();
-							xMin = ex.min;
-							xMax = ex.max;
+					if(series.currentDataGrouping && this.options.params.allowGrouping !== false) {
 							totalRange = series.currentDataGrouping.totalRange;
 							processedXData = series.processedXData.slice();
 							processedXDataLength = processedXData.length;
@@ -719,9 +718,10 @@
 							this.processedXData = groupedPoints[0];
 							this.processedYData = yData = groupedPoints[1];
 					} else {
-							this.processedXData = this.xData.slice(minLen, maxLen); //copy default data
-							this.processedYData = yData = this.yData.slice(minLen, maxLen);
+							this.processedXData = this.xData.slice(minLen); //copy default data
+							this.processedYData = yData = this.yData.slice(minLen);
 					} 
+					
 					// merge current points
 					HC.each(this.processedXData, function(p, i){
 							if(HC.isArray(yData[i])) { 
@@ -837,6 +837,21 @@
 							i++;
 					}
 					return i + 1;
+			},
+			/*
+			*
+			*/
+			getCropStart: function (min, data) {
+					var len = data.length,
+							i = 0;
+							
+					while(i < len) {
+						  if(data[i] >= min) {
+						  		break;
+						  }
+							i++;
+					}
+					return Math.max(0, i - 1);
 			},
 			/*
 			* Destroy the indicator
