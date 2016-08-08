@@ -408,7 +408,6 @@
 		return allItems;
 	});
 
-
 		/*
 	* Render indicator in legend.
 		*/
@@ -544,8 +543,8 @@
 				this.yData = arrayValues.yData;
 				this.groupPoints(series);
 				this.graph = graph = Indicator.prototype[options.type].getGraph(chart, series, options, this.values);
+				
 				if (graph) {
-
 					len = graph.length;
 					for (i = 0; i < len; i++) {
 						graph[i].add(group);
@@ -696,7 +695,7 @@
 				dataLength = xData.length,
 				pointY,
 				pointX,
-				values = [[], [], [], []],
+				values = [[], [], [], [], []],
 				approximationFn = typeof approximation === 'function' ? approximation : HC.approximations[approximation],
 				i;
 
@@ -727,6 +726,7 @@
 					values[1] = [];
 					values[2] = [];
 					values[3] = [];
+					values[4] = [];
 
 							// don't loop beyond the last group
 					if (i === dataLength) {

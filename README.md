@@ -3,7 +3,7 @@
 
 Indicators available in this plugin: **SMA, EMA, ATR, RSI**. You can use these indicators for free.
 
-We also have other indicators available: **Bollinger Bands, MACD, Momentum, CCI, Stochastic, Rate of Change (ROC), Accumulation / distribution (AD).** <br>
+We also have other indicators available: **Bollinger Bands, MACD, Momentum, CCI, Stochastic, Rate of Change (ROC), Accumulation / distribution (AD), Ichimoku Cloud (Kinko Hyo), Pivot Points, ZigZag, Weighted Moving Average (WMA), Price Envelopes.** <br>
 If you're are interested in purchasing them, developing new indicators or any other tools, please contact us at: <a href="mailto:start@blacklabel.pl"> start@blacklabel.pl </a>
 
 You may also want to check our other demo here: http://demo.blacklabel.pl.
@@ -26,15 +26,14 @@ Go to project page to see this module in action: [http://blacklabel.github.io/in
 
 * Like any other Highcharts module (e.g. exporting), add `<script>` tag pointing to `indicators.js` below Highcharts script tag. Then attach all required indicators (like `ema.js`, `rsi.js`).
 
-* For NPM users: 
+* For NPM users:
 ```
 var Highcharts = require('highcharts/highstock');
-
-require('indicators')(Highcharts);
-require('sma')(Highcharts);
-require('ema')(Highcharts);
-require('rsi')(Highcharts);
-require('atr')(Highcharts);
+    require('indicators')(Highcharts);
+    require('sma')(Highcharts);
+    require('ema')(Highcharts);
+    require('rsi')(Highcharts);
+    require('atr')(Highcharts);
 ```
 
 * For BOWER users:
