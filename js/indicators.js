@@ -543,7 +543,7 @@
 				this.yData = arrayValues.yData;
 				this.groupPoints(series);
 				this.graph = graph = Indicator.prototype[options.type].getGraph(chart, series, options, this.values);
-				
+
 				if (graph) {
 					len = graph.length;
 					for (i = 0; i < len; i++) {
@@ -767,10 +767,12 @@
 				point,
 				i;
 
-			for (i = diff; i < pLen; i++) {
-				point = points[i];
-				if (point) {
-					point.indicators[indicator.options.type] = values[i - diff];
+			if (pLen > 0) {
+				for (i = diff; i < pLen; i++) {
+					point = points[i];
+					if (point) {
+						point.indicators[indicator.options.type] = values[i - diff];
+					}
 				}
 			}
 		},
@@ -824,7 +826,7 @@
 			}
 
 				// remove from yAxis.indicators
-			index = axis.indicators.indexOf(indicator);
+			index = axis.indicators ? axis.indicators.indexOf(indicator) : -1;
 			if (index > -1) {
 				axis.indicators.splice(index, 1);
 			}
