@@ -242,8 +242,8 @@
 			this.hasData = typeof this.hasData === 'function' ? function () { return oldHasData; } : oldHasData; // version 4.1.6 vs 4.1.7
 
 			if ((typeof this.hasData === 'function' && this.hasData()) || (typeof this.hasData !== 'function' && this.hasData)) { // version 4.1.6 vs 4.1.7
-				this.setScale();
-				this.setTickPositions(true);
+				// this.setScale();
+				// this.setTickPositions(true);
 
 				this.chart.getMargins(); // #38
 				each(this.indicators, function (ind) {
@@ -267,8 +267,8 @@
 				this.userMin = null;
 			}
 			if (hasData) {
-				this.setScale();
-				this.setTickPositions(true);
+				// this.setScale();
+				// this.setTickPositions(true);
 				this.chart.getMargins();
 			}
 			this.hasData = typeof this.hasData === 'function' ? function () { return hasData; } : hasData; // version 4.1.6 vs 4.1.7
