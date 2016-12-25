@@ -66,10 +66,6 @@
 		return Object.prototype.toString.call(obj) === '[object Array]';
 	};
 
-	HC.isObject = function (obj) {
-		return typeof obj === 'object';
-	};
-
 	splat = function (obj) {
 		return HC.isArray(obj) ? obj : [obj];
 	};
