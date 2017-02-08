@@ -857,6 +857,11 @@
 				}
 			});
 			indicator = null;
+
+			for (var i = 0; i < chart.yAxis.length; i++) {
+				chart.yAxis[i].setScale();
+			}
+			
 			chart.redraw(redraw);
 		},
 
@@ -971,6 +976,11 @@
 
 			item = new Indicator(chart, options);
 			indicators.push(item);
+
+			for (var i = 0; i < chart.yAxis.length; i++) {
+				chart.yAxis[i].setScale();
+			}
+
 			item.render(redraw);
 			chart.redraw(redraw);
 			return item;
